@@ -6,6 +6,5 @@ module.exports.createWindow =  function (url) {
         width: 600,
         autoHideMenuBar: true,
         center: true,
-        frame: false
     }).loadURL(url);
 };

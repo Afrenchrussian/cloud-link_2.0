@@ -2,6 +2,11 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
 const core = require('./core_electron');
+const OAuth2Client = require("google-auth-library").OAuth2Client;
+const destroyer = require("server-destroy");
+const fp = require("find-free-port");
+const http = require("http");
+const google  = require('./googleAuth_electron.js');
 
 const startUrl =
     process.env.ELECTRON_START_URL ||
@@ -34,5 +39,9 @@ app.on("ready", createWindow);
 
 ipcMain.on("createWindow", (event, args) => core.createWindow(args));
 ipcMain.on("destroyFocusedWindow", () => BrowserWindow.getFocusedWindow().destroy());
+
+
+
+ipcMain.on("googleAuth" , (event) =>  google.googleAuth(event) );
 
 

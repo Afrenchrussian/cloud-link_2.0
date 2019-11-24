@@ -1,42 +1,24 @@
-import { OAuth2Client } from 'google-auth-library';
-import { info } from '../config/googleCredentials';
-import url from 'url';
-import destroyer from 'server-destroy';
-
-const http = window.require("http");
-const fp = window.require("find-free-port");
+const google = window.require("googleapis").google;
 const { ipcRenderer } = window.require("electron");
 
-export default function OAuth2 () {
-    fp(4000,60000).then(port => {
-        const oAuth2Client = new OAuth2Client(
-            info.client_id,
-            info.client_secret,
-            info.redirect_uris.replace("PORT", port)
-        );
+export function OAuth2() {
+    const oAuth2ClientTokenHolder = ipcRenderer.sendSync("googleAuth");
+    const oAuth2Client = new google.auth.OAuth2();
+    oAuth2Client.setCredentials(oAuth2ClientTokenHolder);
+    return oAuth2Client;
+}
 
-        const server = http.createServer(async (req, res) => {
-            ipcRenderer.sendSync("destroyFocusedWindow");
-            console.log(
-                await oAuth2Client.getToken(new url.URL(
-                    req.url,
-                    info.redirect_uris.replace("PORT", port[0])
-                     ).get("code").tokens
-                )
-            );
-            res.end();
-            server.destroy();
-        }).listen( port[0], () => {
-            ipcRenderer.sendSync("createWindow", oAuth2Client.generateAuthUrl({
-                    access_type: "offline",
-                    scope: [
-                        "https://www.googleapis.com/auth/userinfo.profile",
-                        "https://www.googleapis.com/auth/drive.readonly",
-                        "https://www.googleapis.com/auth/drive"
-                    ]
-                })
-            )
-        }).on("error", err => console.log(err));
-        destroyer(server)
+export function driveTest(oAuth2Client){
+    console.log(oAuth2Client);
+    const drive = google.drive({ version: "v3", oAuth2Client });
+    drive.files.create({
+        requestBody: {
+            name: 'Test',
+            mimeType: 'text/plain'
+        },
+        media: {
+            mimeType: 'text/plain',
+            body: 'Hello World'
+        }
     })
 }

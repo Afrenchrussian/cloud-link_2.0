@@ -1,4 +1,4 @@
-export const info = {
+module.exports.info = {
     client_id: "522213692282-5k8lrh37i249rcaorh79n971to0acioc.apps.googleusercontent.com",
     project_id: "cloud-link",
     auth_uri: "https://accounts.google.com/o/oauth2/auth",
