@@ -1,20 +1,25 @@
 import HomePage from "./HomePage";
+import Main from './pages/Main'
 import "./css/index.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { HashRouter, Switch, Route } from "react-router-dom";
-const TitleBar =  window.require( "frameless-titlebar");
+import TitleBar from "react-electron-titlebar";
+
+const MyContext = React.createContext({});
 
 ReactDOM.render(
-    <div style={{height: "100%"}}>
-        <TitleBar/>
-        <HashRouter>
-            <Switch>
-                <Route exact path="/" component={HomePage} />
-            </Switch>
-        </HashRouter>
-    </div>,
+
+        <div style={{ height: "100%" }}>
+            <TitleBar />
+            <HashRouter>
+                <Switch>
+                    <Route exact path="/" component={HomePage} />
+                    <Route exact path="/main" component={Main} />
+                </Switch>
+            </HashRouter>
+        </div>,
     document.getElementById("root")
 );
 

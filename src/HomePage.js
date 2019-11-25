@@ -2,8 +2,13 @@ import React from "react";
 import logo from "./images/logo.svg";
 import { OAuth2, driveTest } from "./scripts/OAuth2";
 import GoogleButton from "react-google-button";
+import { googleContext } from "./Context/GoogleContext";
+import { useHistory } from "react-router-dom";
 
 function HomePage() {
+    const google = React.useContext(googleContext);
+    const history = useHistory();
+
     return (
         <div
             className="App"
@@ -28,7 +33,11 @@ function HomePage() {
                         marginTop: "50px"
                     }}
                     type={"dark"}
-                    onClick={() => { driveTest(OAuth2()); }}
+                    onClick={() => {
+                        OAuth2()
+                            .then(authObj => (google.cl_auth = authObj))
+                            .then(() => history.push("/main"));
+                    }}
                 />
             </header>
         </div>

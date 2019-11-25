@@ -8,3 +8,14 @@ module.exports.createWindow =  function (url) {
         center: true,
     }).loadURL(url);
 };
+
+module.exports.error = function (message) {
+    new BrowserWindow( {
+            height: 300,
+            width: 500,
+            autoHideMenuBar: true,
+            center: true,
+            backgroundColor: '#2e2c29'
+        }
+    )
+}
