@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require("electron");
 
-module.exports.createWindow =  function (url) {
+module.exports.createWindow =  function ({url,height,width}) {
     new BrowserWindow({
         height: 600,
         width: 600,

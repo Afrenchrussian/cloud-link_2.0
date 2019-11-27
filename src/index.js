@@ -10,7 +10,6 @@ import TitleBar from "react-electron-titlebar";
 const MyContext = React.createContext({});
 
 ReactDOM.render(
-
         <div style={{ height: "100%" }}>
             <TitleBar />
             <HashRouter>

@@ -1,6 +1,6 @@
 {
     "name": "cloud-link",
-    "version": "0.1.0",
+    "version": "0.4.0",
     "private": true,
     "main": "src/electron/index_electron.js",
     "dependencies": {
@@ -30,7 +30,9 @@
         "electron-start": "ELECTRON_START_URL=http://localhost:3000 electron .",
         "electron-start-win": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
         "dev": "nodemon --exec npm run electron-start",
-        "dev-win": "nodemon --exec npm run electron-start-win"
+        "dev-win": "nodemon --exec npm run electron-start-win",
+        "rebuild-mac": "$(npm bin)/electron-rebuild",
+        "rebuild-win": ".\\node_modules\\.bin\\electron-rebuild.cmd "
     },
     "eslintConfig": {
         "extends": "react-app"

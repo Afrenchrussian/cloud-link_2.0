@@ -4,6 +4,7 @@ const url = require("url");
 const core = require("./core_electron");
 const google = require("./googleAuth_electron.js");
 const { setPassword, getPassword } = require("./keytar_electron");
+const version = require('../../package.json').version;
 
 const startUrl =
     process.env.ELECTRON_START_URL ||
@@ -35,8 +36,10 @@ const createWindow = () => {
 
 app.on("ready", createWindow);
 
-ipcMain.on("createWindow", (event, args) => core.createWindow(args));
+ipcMain.on("createWindow", (event, args) => event.returnValue = core.createWindow(args));
 ipcMain.on("destroyFocusedWindow", () => BrowserWindow.getFocusedWindow().destroy());
 ipcMain.on("googleAuth", event => google.googleAuth(event));
 ipcMain.on("setPassword", (event, { service, account, password }) => { setPassword(service, account, password, event); });
 ipcMain.on("getPassword", (event, { service, account }) => { getPassword(service, account, event); });
+ipcMain.on("getVersion", event => event.returnValue = version);
+ipcMain.on("maximize", (event) =>   { BrowserWindow.getFocusedWindow().maximize(); event.returnValue="success"});
