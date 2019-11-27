@@ -15,8 +15,8 @@ const startUrl =
 
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
-        width: 470,
-        height: 626,
+        width: 1820,
+        height: 980,
         webPreferences: {
             //preload: path.join(__dirname, "preload.js"),
             nodeIntegration: true,
@@ -30,6 +30,7 @@ const createWindow = () => {
 
     mainWindow.loadURL(startUrl);
     mainWindow.webContents.openDevTools();
+    mainWindow.maximize();
 };
 
 app.on("ready", createWindow);

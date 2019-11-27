@@ -1,7 +1,9 @@
 This project was bootstrapped with [Create React HomePage](https://github.com/facebook/create-react-app).
 
 ## Must run
-Every time you install a new package or run npm install you must run $(npm bin)/electron-rebuild
+Every time you install a new package or run npm install you must run 
+* Mac/Linux: $(npm bin)/electron-rebuild
+* Windows: .\node_modules\.bin\electron-rebuild.cmd 
 
 ## Available Scripts
 

@@ -4,6 +4,8 @@
     "private": true,
     "main": "src/electron/index_electron.js",
     "dependencies": {
+        "@material-ui/core": "^4.7.0",
+        "@material-ui/icons": "^4.5.1",
         "electron": "^7.1.2",
         "electron-rebuild": "^1.8.8",
         "find-free-port": "^2.0.0",
