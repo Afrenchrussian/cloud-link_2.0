@@ -1,8 +1,7 @@
-import React from 'react'
 const google = window.require("googleapis").google;
 const { ipcRenderer } = window.require("electron");
 
-export function OAuth2() {
+export default function oAuth2(){
     return new Promise(resolve => {
         const getPass = ipcRenderer.sendSync("getPassword", {
             service: "google-key",
@@ -19,6 +18,8 @@ export function OAuth2() {
             });
             if (result !== "success") {
                 console.log(result);
+            } else {
+                console.log("Error")
             }
         } else {
             oAuth2Client.setCredentials(JSON.parse(getPass));

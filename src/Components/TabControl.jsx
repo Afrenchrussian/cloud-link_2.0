@@ -4,6 +4,8 @@ import { withStyles, createStyles } from "@material-ui/core/styles";
 import { Computer } from "@material-ui/icons";
 import GameList from "../pages/GameList";
 import InfoBar from "./InfoBar";
+import {googleContext} from "../Context/GoogleContext";
+import Login from '../pages/Login'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -60,37 +62,33 @@ const StyledTab = withStyles(theme => ({
         "& > span": {
             display: "inline-block"
         },
-        "&$selected": {
-            color: "#62C0E9",
-            fontSize: "200px"
-        }
     }
 }))(props => <Tab {...props} disableRipple={false} />);
 
-// const SelectedStyledTab = withStyles(theme => ({
-//     root: {
-//         textTransform: "none",
-//         height: "58px",
-//         width: "240px",
-//         minHeight: 0,
-//         fontSize: "18px",
-//
-//         backgroundColor: "#313131",
-//         color: "#62C0E9",
-//
-//         "& > span": {
-//             display: "inline-block"
-//         }
-//     }
-// }))(props => <Tab disableRipple={false} {...props} />);
-//
-// const RenderTab = props => {
-//     return props.selected ? (
-//         <SelectedStyledTab {...props} />
-//     ) : (
-//         <StyledTab {...props} />
-//     );
-// };
+const SelectedStyledTab = withStyles(theme => ({
+    root: {
+        textTransform: "none",
+        height: "58px",
+        width: "240px",
+        minHeight: 0,
+        fontSize: "18px",
+
+        backgroundColor: "#313131",
+        color: "#62C0E9",
+
+        "& > span": {
+            display: "inline-block"
+        }
+    }
+}))(props => <Tab disableRipple={false} {...props} />);
+
+const RenderTab = props => {
+    return props.selected ? (
+        <SelectedStyledTab {...props} />
+    ) : (
+        <StyledTab {...props} />
+    );
+};
 
 function TabControl(props) {
     const classes = props.classes;
@@ -103,26 +101,30 @@ function TabControl(props) {
         setValue(newValue);
     };
 
+    const context = React.useContext(googleContext);
+
+    const LoggedIn = () => {return (context.cl_loggedIn)?<GameList />:<Login/>};
+
     return (
         <div>
             <AppBar position={"static"} className={classes.appBar}>
                 <StyledTabs value={value} onChange={handleChange}>
-                    <StyledTab
+                    <RenderTab
                         label={"My Computer"}
                         icon={<Computer className={classes.icon} />}
                         {...a11yProps(0)}
                     />
-                    <StyledTab label={"Test Two"} {...a11yProps(1)} />
+                    <RenderTab label={"Test Two"} {...a11yProps(1)} />
                 </StyledTabs>
             </AppBar>
             <Grid container direction={"row"} className={classes.entireGrid}>
-                <Grid style={{ width: "70%" }}>
+                <Grid style={context.cl_loggedIn?{ width: "70%" }:{width: "calc(100% - 133px)"}}>
                     <TabPanel
                         value={value}
                         index={0}
                         className={classes.newTab}
                     >
-                        <GameList />
+                       {LoggedIn}
                     </TabPanel>
                     <TabPanel
                         value={value}
@@ -132,7 +134,7 @@ function TabControl(props) {
                         <GameList />
                     </TabPanel>
                 </Grid>
-                <Grid style={{ width: "30%" }}>
+                <Grid style={context.cl_loggedIn? {width: "30%" }:{width: "133px"}}>
                     <InfoBar />
                 </Grid>
             </Grid>

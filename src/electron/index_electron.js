@@ -21,12 +21,13 @@ const createWindow = () => {
         webPreferences: {
             //preload: path.join(__dirname, "preload.js"),
             nodeIntegration: true,
-            webSecurity: false
+            webSecurity: false,
+            webviewTag: true
         },
         autoHideMenuBar: true,
         center: true,
         frame: false,
-        icon: path.join(__dirname, "/src/images/logoPlc.png")
+        icon: path.join(__dirname, "/src/images/logoPlc.png"),
     });
 
     mainWindow.loadURL(startUrl);
