@@ -1,16 +1,23 @@
-import React, {useContext} from "react";
+import React from "react";
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import BottomBar from "../Components/BottomBar";
 import logo from "../images/logo.svg";
-import  oAuth2  from "../scripts/OAuth2";
-import { useHistory } from "react-router-dom";
-import  {googleContext}  from "../Context/GoogleContext";
+import { googleOAuth2, loadPastAuth } from "../scripts/OAuth2";
 import GoogleButton from "react-google-button";
+import main_reducer from "../Redux/Reducers/main_reducer";
+import { login, setAuthToken } from "../Redux/Actions";
+import { connect } from "react-redux";
 
 function Login(props) {
-    const context = useContext(googleContext);
-    const history = useHistory();
     const classes = props.classes;
+
+    loadPastAuth().then(response => {
+        if (response != null) {
+            props.setAuthToken(response);
+            props.login();
+        }
+    });
+
     return (
         <div className={classes.main}>
             <div className={classes.top}>
@@ -33,14 +40,12 @@ function Login(props) {
                     }}
                     type={"light"}
                     onClick={() => {
-                        oAuth2()
-                            .then(authObj => context.cl_auth = authObj)
-                            .then(()=> context.cl_loggedIn = true)
-                            .then(() => history.push("/main"));
+                        googleOAuth2()
+                            .then(token => props.setAuthToken(token))
+                            .then(props.login());
                     }}
                 />
             </div>
-
             <BottomBar />
         </div>
     );
@@ -56,4 +61,15 @@ const styles = theme =>
         }
     });
 
-export default withStyles(styles)(Login);
+const mapStateToProps = state => {
+    return {};
+};
+
+const mapDispatchToProps = {
+    setAuthToken,
+    login
+};
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(Login));

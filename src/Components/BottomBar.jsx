@@ -22,7 +22,7 @@ function BottomBar(props){
 
 const styles = theme => createStyles({
     main:{
-        height: "24px",
+        height: "30px",
         width: "100%",
         backgroundColor: "#393939",
         position: "static",

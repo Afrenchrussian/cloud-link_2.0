@@ -5,7 +5,7 @@ function InfoBar (props){
     const classes = props.classes;
     return(
         <div className={classes.main}>
-            xx
+
         </div>
     )
 }

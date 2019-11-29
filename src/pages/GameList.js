@@ -18,7 +18,7 @@ const styles = theme => createStyles({
         padding: "0px"
     },
     mainBody:{
-        height: "calc(100% - 24px)"
+        height: "calc(100% - 30px)"
     }
 });
 

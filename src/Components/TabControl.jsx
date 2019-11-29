@@ -4,8 +4,10 @@ import { withStyles, createStyles } from "@material-ui/core/styles";
 import { Computer } from "@material-ui/icons";
 import GameList from "../pages/GameList";
 import InfoBar from "./InfoBar";
-import {googleContext} from "../Context/GoogleContext";
-import Login from '../pages/Login'
+import Login from "../pages/Login";
+import { connect } from "react-redux";
+import main_reducer from "../Redux/Reducers/main_reducer";
+import { login, logout } from "../Redux/Actions";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -61,7 +63,7 @@ const StyledTab = withStyles(theme => ({
         },
         "& > span": {
             display: "inline-block"
-        },
+        }
     }
 }))(props => <Tab {...props} disableRipple={false} />);
 
@@ -95,15 +97,15 @@ function TabControl(props) {
 
     const [value, setValue] = React.useState(0);
 
-    console.log(value);
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const context = React.useContext(googleContext);
-
-    const LoggedIn = () => {return (context.cl_loggedIn)?<GameList />:<Login/>};
+    const LoggedIn = () => {
+        console.log(props)
+        console.log(props.main.cl_loggedIn);
+        return props.main.cl_loggedIn ? <GameList /> : <Login />;
+    };
 
     return (
         <div>
@@ -118,13 +120,19 @@ function TabControl(props) {
                 </StyledTabs>
             </AppBar>
             <Grid container direction={"row"} className={classes.entireGrid}>
-                <Grid style={context.cl_loggedIn?{ width: "70%" }:{width: "calc(100% - 133px)"}}>
+                <Grid
+                    style={
+                        props.main.cl_loggedIn
+                            ? { width: "70%" }
+                            : { width: "calc(100% - 266px)" }
+                    }
+                >
                     <TabPanel
                         value={value}
                         index={0}
                         className={classes.newTab}
                     >
-                       {LoggedIn}
+                        {LoggedIn}
                     </TabPanel>
                     <TabPanel
                         value={value}
@@ -134,7 +142,14 @@ function TabControl(props) {
                         <GameList />
                     </TabPanel>
                 </Grid>
-                <Grid style={context.cl_loggedIn? {width: "30%" }:{width: "133px"}}>
+
+                <Grid
+                    style={
+                        props.main.cl_loggedIn
+                            ? { width: "30%" }
+                            : { width: "133px" }
+                    }
+                >
                     <InfoBar />
                 </Grid>
             </Grid>
@@ -181,4 +196,17 @@ const styles = theme =>
         }
     });
 
-export default withStyles(styles)(TabControl);
+const mapStateToProps = state => {
+    return {
+        main: state.main_reducer
+    };
+};
+
+const mapDispatchToProps = {
+    login,
+    logout
+};
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(TabControl));
