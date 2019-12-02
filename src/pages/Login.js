@@ -4,22 +4,40 @@ import BottomBar from "../Components/BottomBar";
 import logo from "../images/logo.svg";
 import { googleOAuth2, loadPastAuth } from "../scripts/OAuth2";
 import GoogleButton from "react-google-button";
-import main_reducer from "../Redux/Reducers/main_reducer";
-import { login, setAuthToken } from "../Redux/Actions";
+import { login, setAuthPort, setAuthToken, setAuthURL } from "../Redux/Actions";
 import { connect } from "react-redux";
+const { ipcRenderer } = window.require("electron");
 
-function Login(props) {
-    const classes = props.classes;
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.loadAuth = this.loadAuth.bind(this);
+        this.setPort = this.setPort.bind(this);
+        this.loadAuth();
+        this.setPort()
+    }
 
-    loadPastAuth().then(response => {
-        if (response != null) {
-            props.setAuthToken(response);
-            props.login();
-        }
-    });
+    loadAuth() {
+        loadPastAuth().then(response => {
+            if (response != null) {
+                this.props.setAuthToken(response);
+                this.props.login();
+            }
+        });
+    }
 
-    return (
-        <div className={classes.main}>
+    setPort() {
+        this.props.setAuthPort(ipcRenderer.sendSync("generateAuthPort"));
+    }
+
+    render() {
+        const classes = this.props.classes;
+
+        console.log(this.props.main)
+
+        const state = this.props.main.cl_AuthWindow ? (
+            <webview className={classes.top} src={this.props.main.cl_AuthUrl} />
+        ) : (
             <div className={classes.top}>
                 <img
                     src={logo}
@@ -40,15 +58,21 @@ function Login(props) {
                     }}
                     type={"light"}
                     onClick={() => {
-                        googleOAuth2()
-                            .then(token => props.setAuthToken(token))
-                            .then(props.login());
+                        googleOAuth2();
+                        //.then(token => props.setAuthToken(token))
+                        //.then(props.login());
                     }}
                 />
             </div>
-            <BottomBar />
-        </div>
-    );
+        );
+
+        return (
+            <div className={classes.main}>
+                {state}
+                <BottomBar />
+            </div>
+        );
+    }
 }
 
 const styles = theme =>
@@ -62,12 +86,16 @@ const styles = theme =>
     });
 
 const mapStateToProps = state => {
-    return {};
+    return {
+        main: state.main_reducer
+    };
 };
 
 const mapDispatchToProps = {
     setAuthToken,
-    login
+    login,
+    setAuthPort,
+    setAuthURL
 };
 export default connect(
     mapStateToProps,

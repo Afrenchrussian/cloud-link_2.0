@@ -6,7 +6,6 @@ import GameList from "../pages/GameList";
 import InfoBar from "./InfoBar";
 import Login from "../pages/Login";
 import { connect } from "react-redux";
-import main_reducer from "../Redux/Reducers/main_reducer";
 import { login, logout } from "../Redux/Actions";
 
 function TabPanel(props) {
@@ -102,8 +101,6 @@ function TabControl(props) {
     };
 
     const LoggedIn = () => {
-        console.log(props)
-        console.log(props.main.cl_loggedIn);
         return props.main.cl_loggedIn ? <GameList /> : <Login />;
     };
 

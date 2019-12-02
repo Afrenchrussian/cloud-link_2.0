@@ -39,8 +39,12 @@ app.on("ready", createWindow);
 
 ipcMain.on("createWindow", (event, args) => event.returnValue = core.createWindow(args));
 ipcMain.on("destroyFocusedWindow", () => BrowserWindow.getFocusedWindow().destroy());
-ipcMain.on("googleAuth", event => google.googleAuth(event));
 ipcMain.on("setPassword", (event, { service, account, password }) => { setPassword(service, account, password, event); });
 ipcMain.on("getPassword", (event, { service, account }) => { getPassword(service, account, event); });
 ipcMain.on("getVersion", event => event.returnValue = version);
-ipcMain.on("maximize", (event) =>   { BrowserWindow.getFocusedWindow().maximize(); event.returnValue="success"});
+ipcMain.on("maximize", event =>   { BrowserWindow.getFocusedWindow().maximize(); event.returnValue="success"});
+ipcMain.on("generateAuthPort", event => { google.choosePort(event); console.log("xx") });
+ipcMain.on("generateAuthURL", (event,port) => { google.googleGenUrl(event,port) });
+ipcMain.on("generateAuthToken", (event,{url,port}) =>{ google.googleAuth(event,url,port) });
+
+//

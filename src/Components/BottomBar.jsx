@@ -6,8 +6,6 @@ const { ipcRenderer } = window.require("electron");
 function BottomBar(props){
     const classes = props.classes;
 
-    console.log(process.env.REACT_APP_VERSION);
-
     return(
         <div className={classes.main}>
             <div onClick={() => {
