@@ -101,6 +101,7 @@ function TabControl(props) {
     };
 
     const LoggedIn = () => {
+        console.log(props.main)
         return props.main.cl_loggedIn ? <GameList /> : <Login />;
     };
 

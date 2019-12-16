@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import BottomBar from "../Components/BottomBar";
 import logo from "../images/logo.svg";
-import { googleOAuth2, loadPastAuth } from "../scripts/OAuth2";
+import { newGoogleOAuth2, loadPastAuth } from "../scripts/OAuth2";
 import GoogleButton from "react-google-button";
 import { login, setAuthPort, setAuthToken, setAuthURL } from "../Redux/Actions";
 import { connect } from "react-redux";
@@ -33,7 +33,7 @@ class Login extends React.Component {
     render() {
         const classes = this.props.classes;
 
-        console.log(this.props.main)
+        console.log(this.props.main);
 
         const state = this.props.main.cl_AuthWindow ? (
             <webview className={classes.top} src={this.props.main.cl_AuthUrl} />
@@ -58,7 +58,7 @@ class Login extends React.Component {
                     }}
                     type={"light"}
                     onClick={() => {
-                        googleOAuth2();
+                        newGoogleOAuth2();
                         //.then(token => props.setAuthToken(token))
                         //.then(props.login());
                     }}

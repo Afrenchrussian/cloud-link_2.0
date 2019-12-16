@@ -8,7 +8,6 @@ const google = require("googleapis").google;
 
 module.exports.choosePort = function(event) {
     fp(4000, 60000).then(freePort => {
-        console.log(freePort[0]);
         event.returnValue = freePort[0];
     });
 };
@@ -30,7 +29,8 @@ module.exports.googleGenUrl = function(event, port) {
     });
 };
 
-module.exports.googleAuth = function(event, url, port) {
+module.exports.googleAuth = function(event ,  port) {
+    //console.log(port)
     new Promise((resolve, reject) => {
         const oAuth2Client = new google.auth.OAuth2(
             info.client_id,
@@ -51,7 +51,7 @@ module.exports.googleAuth = function(event, url, port) {
             .listen(port)
             .on("error", err => console.log(err));
         destroyer(server);
-    }).then(token => event.sender.send("auth", "xx"))
+    }).then(token => event.sender.send("auth", token))
 
     // new Promise((resolve, reject) => {
     //     fp(4000, 60000).then(freePort => {

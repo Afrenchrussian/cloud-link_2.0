@@ -45,6 +45,4 @@ ipcMain.on("getVersion", event => event.returnValue = version);
 ipcMain.on("maximize", event =>   { BrowserWindow.getFocusedWindow().maximize(); event.returnValue="success"});
 ipcMain.on("generateAuthPort", event => { google.choosePort(event); console.log("xx") });
 ipcMain.on("generateAuthURL", (event,port) => { google.googleGenUrl(event,port) });
-ipcMain.on("generateAuthToken", (event,{url,port}) =>{ google.googleAuth(event,url,port) });
-
-//
+ipcMain.on("generateAuthToken", (event,{port}) =>{ google.googleAuth(event,port); console.log(port) });

@@ -3,7 +3,6 @@ const initialState = {
     cl_AuthToken: null,
     cl_AuthPort: null,
     cl_AuthUrl: null,
-    cl_AuthWindow: false
 };
 
 export default (state = initialState, action) => {
