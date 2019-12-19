@@ -19,3 +19,11 @@ export const setAuthURL = payload => ({
 export const toggleAuthWindow = () => ({
     type: "TOGGLE_AUTH_WINDOW",
 });
+export const setMaxGridHeight = payload => ({
+    type: "SET_HEIGHT",
+    payload
+});
+export const setSysInfo = payload => ({
+    type: "SET_SYS_INFO",
+    payload
+});

@@ -101,7 +101,6 @@ function TabControl(props) {
     };
 
     const LoggedIn = () => {
-        console.log(props.main)
         return props.main.cl_loggedIn ? <GameList /> : <Login />;
     };
 
@@ -158,9 +157,9 @@ function TabControl(props) {
 const styles = theme =>
     createStyles({
         appBar: {
-            backgroundColor: "#3D3D3D",
-            boxShadow: "none",
-            height: "58px"
+            backgroundColor: '#3D3D3D',
+            boxShadow: 'none',
+            height: '58px'
         },
         root: {
             flexGrow: 1
@@ -172,24 +171,24 @@ const styles = theme =>
             backgroundColor: theme.palette.background.paper
         },
         demo2: {
-            backgroundColor: "#2e1534"
+            backgroundColor: '#2e1534'
         },
         icon: {
-            width: "36px",
-            verticalAlign: "middle",
-            marginRight: "12px"
+            width: '36px',
+            verticalAlign: 'middle',
+            marginRight: '12px'
         },
         entireGrid: {
-            height: "calc(100% - 82px)",
-            position: "absolute"
+            height: 'calc(100% - 82px)',
+            position: 'absolute'
         },
         newTab: {
-            height: "100%",
-            "& div": {
-                padding: "0px"
+            height: '100%',
+            '& div': {
+                padding: '0px'
             },
-            "& .MuiBox-root": {
-                height: "100%"
+            '& .MuiBox-root': {
+                height: '100%'
             }
         }
     });

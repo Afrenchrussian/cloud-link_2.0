@@ -2,35 +2,51 @@ import React from "react";
 import { Grid, IconButton } from "@material-ui/core";
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import { Add, Remove, Settings, Edit } from "@material-ui/icons";
+import {connect} from "react-redux";
+import {setMaxGridHeight} from "../Redux/Actions";
 
-function SideBar(props) {
-    const classes = props.classes;
-    return (
-        <div className={classes.main}>
-            <Grid container direction={"column"}>
-                <Grid item>
-                    <IconButton className={classes.IconButtonStyle}>
-                        <Add className={classes.Icon} />
-                    </IconButton>
+
+class SideBar extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.main = React.createRef()
+    }
+
+    componentDidMount(){
+        this.props.setMaxGridHeight(this.main.current.offsetHeight);
+        console.log(this.main.current.offsetHeight)
+    }
+
+    render() {
+        const classes = this.props.classes;
+        return (
+            <div ref={this.main} className={classes.main}>
+                <Grid container direction={"column"}>
+                    <Grid item>
+                        <IconButton className={classes.IconButtonStyle}>
+                            <Add className={classes.Icon} />
+                        </IconButton>
+                    </Grid>
+                    <Grid>
+                        <IconButton className={classes.IconButtonStyle}>
+                            <Edit className={classes.Icon} />
+                        </IconButton>
+                    </Grid>
+                    <Grid>
+                        <IconButton className={classes.IconButtonStyle}>
+                            <Remove className={classes.Icon} />
+                        </IconButton>
+                    </Grid>
+                    <Grid>
+                        <IconButton className={classes.IconButtonStyle}>
+                            <Settings className={classes.Icon} />
+                        </IconButton>
+                    </Grid>
                 </Grid>
-                <Grid>
-                    <IconButton className={classes.IconButtonStyle}>
-                        <Edit className={classes.Icon} />
-                    </IconButton>
-                </Grid>
-                <Grid>
-                    <IconButton className={classes.IconButtonStyle}>
-                        <Remove className={classes.Icon} />
-                    </IconButton>
-                </Grid>
-                <Grid>
-                    <IconButton className={classes.IconButtonStyle}>
-                        <Settings className={classes.Icon} />
-                    </IconButton>
-                </Grid>
-            </Grid>
-        </div>
-    );
+            </div>
+        );
+    }
 }
 
 const styles = theme =>
@@ -52,12 +68,25 @@ const styles = theme =>
                 cursor: "pointer"
             }
         },
-        IconButtonStyle:{
+        IconButtonStyle: {
             marginLeft: "50%",
             transform: "translate(-50%)",
             padding: "0px",
-            marginBottom: "70px",
+            marginBottom: "70px"
         }
     });
 
-export default withStyles(styles)(SideBar);
+const mapStateToProps = state => {
+    return {
+        main: state.main_reducer
+    };
+};
+
+const mapDispatchToProps = {
+    setMaxGridHeight
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(SideBar));

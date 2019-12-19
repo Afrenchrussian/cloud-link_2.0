@@ -21,15 +21,16 @@ function BottomBar(props){
 const styles = theme => createStyles({
     main:{
         height: "30px",
-        width: "100%",
+        width: "calc(70% - 20px)",
         backgroundColor: "#393939",
-        position: "static",
+        position: "fixed",
         color:"#62C0E9",
         fontSize: "13px",
         textDecoration: "underline",
         fontWeight: "bold",
         paddingLeft: "20px !important",
         paddingTop: "2px !important",
+        bottom: 0,
         '&:hover':{
             cursor: "pointer"
         }

@@ -3,6 +3,8 @@ const initialState = {
     cl_AuthToken: null,
     cl_AuthPort: null,
     cl_AuthUrl: null,
+    cl_gridMaxHeight: null,
+    cl_system_info: {},
 };
 
 export default (state = initialState, action) => {
@@ -37,6 +39,16 @@ export default (state = initialState, action) => {
                 ...state,
                 cl_AuthWindow: (! state.cl_AuthWindow)
             };
+        case "SET_HEIGHT":
+            return {
+                ...state,
+                cl_gridMaxHeight : action.payload
+            };
+        case "SET_SYS_INFO":
+            return {
+                ...state,
+                cl_system_info: action.payload
+            }
         default:
             return state;
     }

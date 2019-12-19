@@ -33,8 +33,6 @@ class Login extends React.Component {
     render() {
         const classes = this.props.classes;
 
-        console.log(this.props.main);
-
         const state = this.props.main.cl_AuthWindow ? (
             <webview className={classes.top} src={this.props.main.cl_AuthUrl} />
         ) : (
